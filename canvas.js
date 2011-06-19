@@ -4,23 +4,17 @@ var canvas, ctx, ceil;
 $(document).ready(function() {
   canvas = document.getElementById("canvas");
   ctx = canvas.getContext("2d");
-  ceil = 1000;
+  var width = window.innerWidth;
+  var height = window.innerHeight;
+  ceil = width;
+  $(canvas).attr({height: height, width: width});
   init();
 });
 
 function init()
 {
   // ctx.fillRect(x, y, width, height);
-  ctx.fillRect(50, 50, 100, 100);
-
-  ctx.strokeRect(100, 100, 100, 100);
-
-  ctx.beginPath();
-  ctx.moveTo(150, 50);
-  ctx.lineTo(200, 250);
-  ctx.lineTo(250, 250);
-  ctx.closePath();
-  ctx.fill();
+  setInterval("drawStuff()", random(500));
 }
 
 function clear()
@@ -28,27 +22,53 @@ function clear()
   ctx.clearRect(0, 0, 1000, 1000);
 }
 
-function colorIt()
+function colorIt(aStrokeStyle)
 {
   var r = random(255);
   var b = random(255);
   var g = random(255);
 
   var style = "rgb(" + r + "," + b + "," + g + ")";
+  if (aStrokeStyle) {
+    ctx.strokeStyle = style;
+  } else {
+    ctx.fillStyle = style;
+  }
+}
 
-  ctx.fillStyle = style;
+function curvyShape()
+{
+  var beginPt = [random(), random()];
+  var numCurves = random(32);
+  ctx.lineWidth = random(20);
+  ctx.beginPath();
+  ctx.moveTo(beginPt[0], beginPt[1]);
+  for (var i = 0; i < numCurves; i++) {
+    ctx.moveTo(random(), random());
+    ctx.quadraticCurveTo(random(), random(), random(), random());
+  }
+  ctx.moveTo(beginPt[0], beginPt[1]);
+  ctx.quadraticCurveTo(random(), random(), random(), random());
+  ctx.stroke();
+  colorIt(1);
 }
 
 function drawStuff()
 {
   var numObjects = random(random());
   for (var i = 0; i < numObjects; i++) {
-    var choose = random(1);
+    var choose = random(3);
     if (choose == 0) {
       rectangle();
     }
-    else {
+    else if (choose == 1){
       randomShape();
+    }
+    else if (choose == 2){
+      circle();
+    }
+    else if (choose == 3){
+      curvyShape();
     }
   }
 }
@@ -61,6 +81,15 @@ function rectangle()
   var h = random(random());
 
   ctx.fillRect(x, y, w, h);
+  colorIt();
+}
+
+function circle()
+{
+  ctx.beginPath();
+  ctx.arc(random(100), random(500), random(500), 0, Math.PI*2, false);
+  ctx.closePath();
+  ctx.fill();
   colorIt();
 }
 
@@ -91,4 +120,3 @@ function random(aMax)
   return parseInt(Math.floor(Math.random()*(max + 1)));
 }
 
-setInterval("drawStuff()", random(500));
