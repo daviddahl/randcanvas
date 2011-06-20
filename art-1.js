@@ -37,7 +37,7 @@ function getWords()
 function init()
 {
   // ctx.fillRect(x, y, width, height);
-  setInterval("drawStuff()", random(3000));
+  setInterval("drawStuff()", random(400));
 }
 
 function clear()
