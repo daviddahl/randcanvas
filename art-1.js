@@ -4,7 +4,12 @@ var canvas, ctx, ceil, txtArr, txtArrLen;
 $(document).ready(function() {
   canvas = document.getElementById("canvas");
   ctx = canvas.getContext("2d");
-  ceil = 500;
+
+  var width = window.innerWidth;
+  var height = window.innerHeight;
+  ceil = width;
+  $(canvas).attr({height: height, width: width});
+
   txtArr = lulzsectxt.split(" ");
   txtArrLen = txtArr.length;
   init();
