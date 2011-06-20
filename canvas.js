@@ -14,7 +14,7 @@ $(document).ready(function() {
 function init()
 {
   // ctx.fillRect(x, y, width, height);
-  setInterval("drawStuff()", random(500));
+  setInterval("drawStuff()", random(50));
 }
 
 function clear()
@@ -71,6 +71,14 @@ function drawStuff()
       curvyShape();
     }
   }
+  text();
+}
+
+function text(aText)
+{
+  var fontsize = random(200);
+  ctx.font = fontsize + "pt Arial";
+  ctx.strokeText("FUCK", random(), random());
 }
 
 function rectangle()
